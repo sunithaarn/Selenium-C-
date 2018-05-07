@@ -33,6 +33,7 @@ namespace JQueryGUI
             jobj = new Jguidatepicker(chrome);
                 
            string result= jobj.Datepickerelement("15/12/2011");
+            string result1 =jobj.Datepickerelement("27/10/2020")
             Assert.AreEqual("Success", result);
         }
 
