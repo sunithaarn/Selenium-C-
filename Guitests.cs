@@ -10,87 +10,117 @@ using System.Threading.Tasks;
 
 namespace JQueryGUI
 {
-    class Guitests
+    public class Guitests
     {
 
         IWebDriver chrome = new ChromeDriver();
-        //string url_datepicker = "https://jqueryui.com/datepicker/";
-        // string url_accordion = "https://jqueryui.com/accordion/";
-          string url_autocomplete = "https://jqueryui.com/autocomplete/";
+        string Url = "https://jqueryui.com/demos/";
 
-        // string url_checkboxradio = "https://jqueryui.com/checkboxradio/";
-
-        /* Jguidatepicker jobj;
-         Accordion Aobj;
-
-         checkboxradio Cobj;*/
+        Jguidatepicker jobj;
+        Accordion Aobj;
+        checkboxradio Cobj;
         Autocomplete aobj;
+        demos demoobj;
        
+
 
         [SetUp]
         public void Openurl()
         {
 
-            // chrome.Navigate().GoToUrl(url_datepicker);
-            //chrome.Navigate().GoToUrl(url_accordion);
-            // chrome.Navigate().GoToUrl(url_checkboxradio);
-            chrome.Navigate().GoToUrl(url_autocomplete);
-             chrome.Manage().Window.Maximize();
+            chrome.Navigate().GoToUrl(Url);
+            chrome.Manage().Window.Maximize();
 
         }
 
 
-       /* [Test]
-        public void Selectdate()
+        [TestCase("15/12/2011")]
+        [TestCase("01/07/2018")]
+        public void Selectdate(string date)
         {
+
+            demoobj = new demos(chrome);
+            demoobj.ClickDatepicker();
             jobj = new Jguidatepicker(chrome);
-                
-           string result= jobj.Datepickerelement("15/12/2011");
+            string result = jobj.Datepickerelement(date);
             Assert.AreEqual("Success", result);
         }
 
-        [Test]
+        [TestCase(1)]
+        [TestCase(3)]
 
-        public void SelectAccordionSection()
+        public void SelectAccordionSection(int section)
         {
+
+            demoobj = new demos(chrome);
+            demoobj.ClickAccordion();
             Aobj = new Accordion(chrome);
-           string result= Aobj.Accordionaccess(4);
+            string result = Aobj.Accordionaccess(section);
             Assert.AreEqual("Success", result);
 
-        }*/
-        [Test]
-        public void Autocompletesuccess()
-        {
+        }
 
+        [TestCase("Basic")]
+        [TestCase("ActionScript")]
+        public void Autocompletesuccess(string option)
+        {
+            demoobj = new demos(chrome);
+            demoobj.ClickAutocomplete();
             aobj = new Autocomplete(chrome);
-            aobj.Autocompleteaccess("Basic");
-           
+            aobj.Autocompleteaccess(option);
+
         }
 
 
-        /*[Test]
-        public void Selectradiooptions()
+        [TestCase("New York")]
+        [TestCase("Paris")]
+        [TestCase("London")]
+        public void Selectradiooptions(string city)
         {
-
+            demoobj = new demos(chrome);
+            demoobj.ClickCheckradiobox();
             Cobj = new checkboxradio(chrome);
-            string result = Cobj.Radioaccess("Paris");
-            string result2 = Cobj.Checkboxaccess("2 Star");
-            string result3 = Cobj.Checkboxaccess("4 Star");
-        }*/
-       /*[TestCase ("2 Star","3 Star","Null ","Null")]
-       
-       [TestCase ("Null","3 Star","Null","5 Star")]
+            string result = Cobj.Radioaccess(city);
+        }
 
-        [TestCase ("Null","aaa","aaaa","aaaaa")]
 
-        public void Selectcheckboxoptions(string v1,string v2,string v3,string v4)
+        const string Rating2 = "2 Star";
+        const string Rating3 = "3 Star";
+        const string Rating4 = "4 Star";
+        const string Rating5 = "5 Star";
+        const string NoRating = "Null";
+
+        [TestCase(Rating5, Rating3, "null", "null")]
+
+        [TestCase("null", "null",Rating2,"2222")]
+
+        [TestCase("dddd", "dddddd", "ssss","ssss")]
+        [TestCase(Rating5,Rating4,Rating2,Rating3)]
+
+
+        public void Selectcheckboxoptions(string v1, string v2, string v3, string v4)
         {
+            demoobj = new demos(chrome);
+            demoobj.ClickCheckradiobox();
             Cobj = new checkboxradio(chrome);
-           string result = Cobj.Checkboxaccess(v1,v2,v3,v4);
-            Assert.AreEqual("Success", result);
+            string result = Cobj.Checkboxaccess(v1, v2, v3, v4);
+            if (result == "Success")
+            {
+                Assert.AreEqual("Success", result);
+            }
+            else
+            {
+                Assert.AreEqual("Options not available", result);
+            }
 
-        }*/
+        }
 
-      
+
+
+        [TearDown]
+        public void CloseBrowser()
+        {
+            chrome.Close();
+        }
     }
 }

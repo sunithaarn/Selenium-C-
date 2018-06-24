@@ -57,6 +57,7 @@
     <Compile Include="Accordion.cs" />
     <Compile Include="Autocomplete.cs" />
     <Compile Include="checkboxradio.cs" />
+    <Compile Include="demos.cs" />
     <Compile Include="Employeescreate.cs" />
     <Compile Include="Guitests.cs" />
     <Compile Include="Jguidatepicker.cs" />
